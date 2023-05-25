@@ -1,11 +1,16 @@
+import TodoItem from '@/components/TodoItem';
 import { prisma } from '@/db'
 import Image from 'next/image'
 import Link from 'next/link'
 
+const getTodos = () =>{
+  return prisma.todo.findMany();
+}
+
 
 export default async function Home() {
-  const todos = await prisma.todo.findMany()
-  // await prisma.todo.create({ data: { title: "test", complete: false } });
+  const todos = await getTodos();
+  // await prisma.todo.create({ data: { title: "test2", complete: true } });
 
 
   return (
@@ -16,7 +21,7 @@ export default async function Home() {
       </header>
       <ul>
         {
-          todos.map(todo => <li key={todo.id}>{todo.title}</li>)
+          todos.map(todo => <TodoItem key={todo.id} {...todo}></TodoItem>)
         }
       </ul>
     </main>
