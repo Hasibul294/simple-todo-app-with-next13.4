@@ -6,6 +6,11 @@ import Link from 'next/link'
 const getTodos = () =>{
   return prisma.todo.findMany();
 }
+async function toggoleTodo (id: string, complete: boolean){
+  "use server"
+
+  await prisma.todo.update({ where: {id}, data: {complete} })
+}
 
 
 export default async function Home() {
@@ -21,7 +26,7 @@ export default async function Home() {
       </header>
       <ul>
         {
-          todos.map(todo => <TodoItem key={todo.id} {...todo}></TodoItem>)
+          todos.map(todo => <TodoItem key={todo.id} {...todo} toggoleTodo={toggoleTodo}></TodoItem>)
         }
       </ul>
     </main>
